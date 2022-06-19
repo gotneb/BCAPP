@@ -22,9 +22,11 @@ func Init() {
 }
 
 func ModP(n, p1 *big.Int) *big.Int {
-	n = n.Rem(n, p1)
+	var k = big.NewInt(0)
+
+	n.Set(k.Rem(n, p1))
 	if n.Sign() < 0 {
-		return p1.Add(p1, n)
+		return k.Add(p1, n)
 	}
 	return n
 }
@@ -63,32 +65,31 @@ func Inverse(r, p *big.Int) *big.Int {
 }
 
 func DoubleP(x, y *big.Int) [2]*big.Int {
+	// k, _a, _b, _c are "dumb" variables. Only made for divide big expressions into small blocks for my own understanding
 	var (
 		k  = new(big.Int)
+		_a = new(big.Int)
+		_b = new(big.Int)
+		_c = new(big.Int)
 		m  = new(big.Int)
-		a  = new(big.Int)
-		b  = new(big.Int)
-		i3 = new(big.Int)
-		i1 = new(big.Int)
-		i2 = new(big.Int)
 		p0 = new(big.Int)
 		p1 = new(big.Int)
 	)
-	a.Set(Inverse(k.Mul(y, big.NewInt(2)), P))
-	b.Set(k.Mul(x, k.Mul(x, big.NewInt(3))))
+	//m = modp (((3*(x*x) + A)*inverse ((2*y), p)), p);
+	m.Set(ModP(k.Mul(Inverse(k.Mul(y, big.NewInt(2)), P), k.Add(k.Mul(x, k.Mul(x, big.NewInt(3))), A)), P))
 
-	m.Set(ModP(k.Mul(a, k.Add(b, A)), P))
+	//point[0] = modp ((((m*m)) - (2*x)), p);
+	_a.Set(k.Mul(m, m))
+	_b.Set(k.Mul(x, big.NewInt(2)))
+	p0.Set(ModP(k.Sub(_a, k.Mul(x, big.NewInt(2))), P))
 
-	a.Set(k.Mul(m, m))
-	b.Set(k.Mul(x, big.NewInt(2)))
+	_a.Set(k.Mul(m, k.Mul(x, big.NewInt(2))))
+	_b.Set(k.Sub(k.Mul(m, ModP(k.Mul(m, m), P)), _a))
+	_c.Set(k.Sub(y, k.Mul(m, x)))
 
-	p0.Set(ModP(k.Sub(a, b), P))
+	//point[1] = modp ((-( (m * modp ((m*m), p)) - (m*(2*x)) + (y - (m*x)))), p);
+	p1.Set(ModP(k.Sub(big.NewInt(0), k.Add(_b, _c)), P))
 
-	i3.Set(k.Mul(m, k.Mul(x, big.NewInt(2))))
-	i1.Set(k.Sub(k.Mul(ModP(k.Mul(m, m), P), m), i3))
-	i2.Set(k.Sub(y, k.Mul(m, x)))
-
-	p1.Set(ModP(k.Sub(big.NewInt(0), k.Add(i1, i2)), P))
-
-	return [2]*big.Int{p0, p1}
+	point = [2]*big.Int{p0, p1}
+	return point
 }
