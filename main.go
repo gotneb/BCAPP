@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 
 	"math/big"
 
@@ -12,6 +13,10 @@ import (
 func main() {
 	nibblelinx.Init()
 	r := gin.Default()
+
+	r.GET("/", func(c *gin.Context) {
+		c.String(http.StatusOK, "Helo there!")
+	})
 
 	r.GET("/modp/:n/:p1", func(c *gin.Context) {
 		_n, _p1 := c.Param("n"), c.Param("p1")
@@ -53,5 +58,6 @@ func main() {
 		})
 	})
 
-	r.Run(":8080")
+	port := os.Getenv("PORT")
+	r.Run(":" + port)
 }
