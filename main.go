@@ -57,7 +57,7 @@ func initHandlers() {
 	})
 
 	port := os.Getenv("PORT")
-	r.Run(":8080" + port)
+	r.Run(":" + port)
 }
 
 func main() {
