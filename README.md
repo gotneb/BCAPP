@@ -1,6 +1,9 @@
 # BCAPP
  A BCAPP's library written in Go.
  ## API
+ 
+ All of them return a JSON format.
+ 
  ### Endpoints avaliable on ECC
  
 <details><summary>modp</summary><p>
@@ -45,7 +48,7 @@ It has the same parameter meaning from Ecc.inverse(BigInteger r, BigInteger p). 
 
 <details><summary>doublep</summary><p>
  
-It has the same parameter meaning from Ecc.doublep(x, y). [See java file.](https://github.com/carlosamcruz/BCAPP/blob/master/app/src/main/java/com/nibblelinx/BCAPP/Ecc.java#L81)
+It has the same parameter meaning from Ecc.doublep(BigInteger x, BigInteger y). [See java file.](https://github.com/carlosamcruz/BCAPP/blob/master/app/src/main/java/com/nibblelinx/BCAPP/Ecc.java#L81)
  
 #### HTTP Request
 
@@ -62,3 +65,4 @@ It has the same parameter meaning from Ecc.doublep(x, y). [See java file.](https
 </p>
 
 </details>
+
