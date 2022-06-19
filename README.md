@@ -82,7 +82,7 @@ It has the same parameter meaning from Ecc.addp(BigInteger x1, BigInteger y1, Bi
 |  x1 |  Big Integer |
 |  y1 |  Big Integer |
 |  x2 |  Big Integer |
-|  y1 |  Big Integer |
+|  y2 |  Big Integer |
 
 </p>
 
