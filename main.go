@@ -51,8 +51,31 @@ func initHandlers() {
 		x, _ := new(big.Int).SetString(_x, 10)
 		y, _ := new(big.Int).SetString(_y, 10)
 
+		result := nibblelinx.DoubleP(x, y)
 		c.JSON(http.StatusOK, gin.H{
-			"result": [2]string{nibblelinx.DoubleP(x, y)[0].String(), nibblelinx.DoubleP(x, y)[1].String()},
+			"result": [2]string{
+				result[0].String(),
+				result[1].String(),
+			},
+		})
+	})
+
+	// Handle calls to nibblelinx.AddP()
+	r.GET("/addp/:x1/:y1/:x2/:y2", func(c *gin.Context) {
+		_x1, _y1, _x2, _y2 := c.Param("x1"), c.Param("y1"), c.Param("x2"), c.Param("y2")
+
+		x1, _ := new(big.Int).SetString(_x1, 10)
+		y1, _ := new(big.Int).SetString(_y1, 10)
+		x2, _ := new(big.Int).SetString(_x2, 10)
+		y2, _ := new(big.Int).SetString(_y2, 10)
+
+		result := nibblelinx.AddP(x1, y1, x2, y2)
+		//fmt.Printf("%s\n%s\n", result[0], result[1])
+		c.JSON(http.StatusOK, gin.H{
+			"result": [2]string{
+				result[0].String(),
+				result[1].String(),
+			},
 		})
 	})
 

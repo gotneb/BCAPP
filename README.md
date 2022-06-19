@@ -66,3 +66,24 @@ It has the same parameter meaning from Ecc.doublep(BigInteger x, BigInteger y). 
 
 </details>
 
+<details><summary>addp</summary><p>
+ 
+It has the same parameter meaning from Ecc.addp(BigInteger x1, BigInteger y1, BigInteger x2, BigInteger y2). [See java file.](https://github.com/carlosamcruz/BCAPP/blob/master/app/src/main/java/com/nibblelinx/BCAPP/Ecc.java#L96)
+ 
+#### HTTP Request
+
+```
+ GET https://bcapp-go.herokuapp.com/addp/<x1>/<y1>/<x2>/<y2>
+```
+ #### URL Parameters
+
+| Parameter  |  Description  |
+| --- | --- |
+|  x1 |  Big Integer |
+|  y1 |  Big Integer |
+|  x2 |  Big Integer |
+|  y1 |  Big Integer |
+
+</p>
+
+</details>

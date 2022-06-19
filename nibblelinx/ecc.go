@@ -93,3 +93,41 @@ func DoubleP(x, y *big.Int) [2]*big.Int {
 	point = [2]*big.Int{p0, p1}
 	return point
 }
+
+func AddP(x1, y1, x2, y2 *big.Int) [2]*big.Int {
+	var (
+		k  = new(big.Int)
+		m  = new(big.Int)
+		p0 = new(big.Int)
+		p1 = new(big.Int)
+		_a = new(big.Int)
+		_b = new(big.Int)
+		_c = new(big.Int)
+		_d = new(big.Int)
+	)
+
+	if x1.Cmp(x2) == 0 {
+		if y1.Cmp(y2) == 0 {
+			return DoubleP(x1, y1)
+		}
+		return pointNULL
+	}
+
+	//m = modp (((y2 - y1)*inverse (modp ((x2 - x1), p), p)), p)
+	_a.Set(k.Sub(y2, y1))
+	_b.Set(Inverse(ModP(k.Sub(x2, x1), P), P))
+	m.Set(ModP(k.Mul(_a, _b), P))
+	// Point[0]
+	_a.Set(k.Mul(m, m))
+	_b.Set(k.Add(x1, x2))
+	p0.Set(ModP(k.Sub(_a, _b), P))
+	// Point[1]
+	_a.Set(k.Mul(m, ModP(k.Mul(m, m), P)))
+	_b.Set(k.Mul(m, k.Add(x1, x2)))
+	_c.Set(k.Sub(y1, k.Mul(m, x1)))
+	_d.Set(k.Add(k.Sub(_a, _b), _c))
+	p1.Set(ModP(k.Sub(big.NewInt(0), _d), P))
+
+	point = [2]*big.Int{p0, p1}
+	return point
+}
