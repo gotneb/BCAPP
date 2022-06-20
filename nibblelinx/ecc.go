@@ -131,3 +131,52 @@ func AddP(x1, y1, x2, y2 *big.Int) [2]*big.Int {
 	point = [2]*big.Int{p0, p1}
 	return point
 }
+
+func EccNP(n, x, y *big.Int) [2]*big.Int {
+	var (
+		k       = new(big.Int)
+		x3      = new(big.Int)
+		y3      = new(big.Int)
+		n3      = new(big.Int)
+		bittest = new(big.Int).SetInt64(1)
+		pointR  = [2]*big.Int{new(big.Int), new(big.Int)}
+	)
+
+	if n.Sign() < 0 {
+		n.Set(k.Sub(big.NewInt(0), n))
+		y.Set(k.Sub(P, y))
+	}
+
+	n3.Set(k.Mul(n, big.NewInt(3)))
+
+	for k.Sub(bittest, n3).Sign() <= 0 {
+		bittest.Set(k.Mul(bittest, big.NewInt(2)))
+	}
+	bittest.Set(k.Div(bittest, big.NewInt(4)))
+
+	x3.Set(x)
+	y3.Set(y)
+
+	for k.Sub(bittest, big.NewInt(1)).Sign() > 0 {
+		pointR = DoubleP(x3, y3)
+		x3.Set(pointR[0])
+		y3.Set(pointR[1])
+
+		if (k.And(n3, bittest).Cmp(big.NewInt(0)) != 0) && (k.And(n, bittest).Cmp(big.NewInt(0)) == 0) {
+			pointR = AddP(x3, y3, x, y)
+			x3.Set(pointR[0])
+			y3.Set(pointR[1])
+		}
+
+		if (k.And(n3, bittest).Cmp(big.NewInt(0)) == 0) && (k.And(n, bittest).Cmp(big.NewInt(0)) != 0) {
+			pointR = AddP(x3, y3, x, k.Sub(P, y))
+			x3.Set(pointR[0])
+			y3.Set(pointR[1])
+		}
+
+		bittest.Set(k.Div(bittest, big.NewInt(2)))
+	}
+
+	point = [2]*big.Int{x3, y3}
+	return point
+}

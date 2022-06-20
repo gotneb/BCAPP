@@ -70,7 +70,23 @@ func initHandlers() {
 		y2, _ := new(big.Int).SetString(_y2, 10)
 
 		result := nibblelinx.AddP(x1, y1, x2, y2)
-		//fmt.Printf("%s\n%s\n", result[0], result[1])
+		c.JSON(http.StatusOK, gin.H{
+			"result": [2]string{
+				result[0].String(),
+				result[1].String(),
+			},
+		})
+	})
+
+	// Handle calls to nibblelinx.EccNP()
+	r.GET("/eccnp/:n/:x/:y", func(c *gin.Context) {
+		_n, _x, _y := c.Param("n"), c.Param("x"), c.Param("y")
+
+		n, _ := new(big.Int).SetString(_n, 10)
+		x, _ := new(big.Int).SetString(_x, 10)
+		y, _ := new(big.Int).SetString(_y, 10)
+
+		result := nibblelinx.EccNP(n, x, y)
 		c.JSON(http.StatusOK, gin.H{
 			"result": [2]string{
 				result[0].String(),
