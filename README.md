@@ -1,6 +1,6 @@
 # BCAPP
  A BCAPP's library written in Go.
- ## API
+ ## :milky_way: API
  
  All of them return in a JSON format.
  
@@ -109,5 +109,10 @@ GET https://bcapp-go.herokuapp.com/eccnp/<n>/<x>/<y>
 
 </details>
  
-## Test-Driven
- Coming soon
+## :memo: Test Driven
+Check-out the [source files](https://github.com/gotneb/bcapp/tree/main/files_tests) :file_folder: used in the tests.
+ - [x] modp
+ - [ ] inverse
+ - [ ] doublep
+ - [ ] addp
+ - [ ] eccnp
