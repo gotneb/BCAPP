@@ -4,7 +4,7 @@
  
  All of them return in a JSON format.
  
- ### ECC's endpoints
+ ### :bookmark: ECC's endpoints
  
 <details><summary>modp</summary><p>
  
@@ -112,7 +112,7 @@ GET https://bcapp-go.herokuapp.com/eccnp/<n>/<x>/<y>
 ## :memo: Test Driven
 Check-out the [source files](https://github.com/gotneb/bcapp/tree/main/files_tests) :file_folder: used in the tests.
  - [x] modp
- - [ ] inverse
+ - [x] inverse
  - [ ] doublep
  - [ ] addp
  - [ ] eccnp

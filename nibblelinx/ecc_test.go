@@ -16,9 +16,11 @@ type Test struct {
 
 var source []*big.Int = make([]*big.Int, 0)
 var modp []*big.Int = make([]*big.Int, 0)
+var inverse []*big.Int = make([]*big.Int, 0)
 var tests []*Test = make([]*Test, 0)
 
-func catchLines(filename string, dst *[]*big.Int) {
+// get a file content from a file and storage into dst
+func loadFiles(filename string, dst *[]*big.Int) {
 	file, err := os.Open(filename)
 	if err != nil {
 		log.Fatal(err)
@@ -37,8 +39,13 @@ func catchLines(filename string, dst *[]*big.Int) {
 }
 
 func TestModP(t *testing.T) {
-	catchLines("/home/gabriel/Documents/Development/Go/bcapp/files_tests/source", &source)
-	catchLines("/home/gabriel/Documents/Development/Go/bcapp/files_tests/modp_output", &modp)
+	loadFiles("/home/gabriel/Documents/Development/Go/bcapp/files_tests/source", &source)
+	loadFiles("/home/gabriel/Documents/Development/Go/bcapp/files_tests/modp_output", &modp)
+
+	if len(tests) != 0 {
+		tests = make([]*Test, 0)
+	}
+
 	for i := 0; i < len(source)-1; i += 2 {
 		tests = append(tests, &Test{
 			source[i],
@@ -55,3 +62,32 @@ func TestModP(t *testing.T) {
 		}
 	}
 }
+
+func TestInverse(t *testing.T) {
+	loadFiles("/home/gabriel/Documents/Development/Go/bcapp/files_tests/source", &source)
+	loadFiles("/home/gabriel/Documents/Development/Go/bcapp/files_tests/inverse_output", &inverse)
+
+	if len(tests) != 0 {
+		tests = make([]*Test, 0)
+	}
+
+	for i := 0; i < len(source)-1; i += 2 {
+		tests = append(tests, &Test{
+			source[i],
+			source[i+1],
+			new(big.Int)},
+		)
+	}
+
+	for i := 0; i < len(inverse); i++ {
+		tests[i].expected = inverse[i]
+	}
+
+	for _, test := range tests {
+		if out := Inverse(test.arg1, test.arg2); out.Cmp(test.expected) != 0 {
+			t.Errorf("\nTest Failed:\narg_1: %s\narg_2: %s\nExpected: %s\nReceveid: %s\n", test.arg1, test.arg2, test.expected, out)
+		}
+	}
+}
+
+// TODO: These 2 functions above they have almost the same code, do only one funciton who does the entire work.
