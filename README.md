@@ -1,5 +1,5 @@
 # BCAPP
- A BCAPP's library written in Go.
+ A BCAPP's api library written in Go.
  ## :milky_way: API
  
  All of them return in a JSON format.
