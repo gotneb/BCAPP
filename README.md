@@ -1,3 +1,6 @@
+# Archived
+Due to short time and complexity to write the entire code from BCAPP, I've decided to [rewrite in Java.](https://github.com/gotneb/bcapp-api) 
+
 # BCAPP
  A BCAPP's api library written in Go.
  ## :milky_way: API
